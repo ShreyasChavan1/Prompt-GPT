@@ -15,7 +15,7 @@ const Main = () => {
         {!showResult?
         <>
             <div className="greet">
-              <p><span>Hello , Vighnesh & Shreyas</span></p>
+              <p><span>Hello , User</span></p>
               <p>How can I help you Today ?</p>
             </div>
             
@@ -49,11 +49,13 @@ const Main = () => {
                 {loading?
                 <div className="loader">
                   <hr />
+                  
                   <hr />
                   <hr />
                 </div>  
                 :
                 <p dangerouslySetInnerHTML={{__html:resultData}}></p>
+                // <p>{resultData}</p>
                 }
               </div>
             </div>

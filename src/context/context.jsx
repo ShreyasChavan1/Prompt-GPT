@@ -12,18 +12,31 @@ const ContextProvider = (props) => {
     const [loading,setLoading] = useState(false);
     const [resultData,setResultData] = useState("");
 
+    const delayPara = (index,nextWord) =>{
+
+    }
+
     const onSent = async (prompt) =>{
         setResultData("");
         setLoading(true);
         setShowResult(true);
         setRecentPrompts(input);
        const responce =  await run(input);
-       setResultData(responce);
+       let responseArray = responce.split("**");
+       let newResponse;
+       for(let i=0;i<responseArray.length;i++){
+        if(i===0 || i%2 !== 1){
+            newResponse += responseArray[i];
+        }else{
+            newResponse += "<b>"+responseArray[i]+"</b>";
+        }
+       }
+       setResultData(newResponse);
        setLoading(false);
        setInput("");
     }
     
-    // onSent("what is MRN")
+    
     
 
     const contextValue = {
