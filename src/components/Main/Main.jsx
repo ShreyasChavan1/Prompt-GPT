@@ -38,7 +38,7 @@ const Main = (props) => {
         {chathistory.length > 0 && (
           <div className="chat-history-container">
             {chathistory.map((chat, index) => (
-              <div key={index} className="chat-history">
+              <div key={index} className="result">
                 <div className="result-title">
                   <img src={assets.user_icon} alt="" />
                   <p>{chat.prompt}</p>

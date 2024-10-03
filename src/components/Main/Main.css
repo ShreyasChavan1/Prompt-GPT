@@ -19,8 +19,12 @@
 }
 .main-container{
     overflow-y: scroll;
+    max-width: 70vh;
     max-width: 900px;
     margin: auto;
+}
+.main-container::-webkit-scrollbar{
+    display: none;
 }
 .main .greet{
     margin: 50px 0px;
