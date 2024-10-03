@@ -1,9 +1,20 @@
 import {React , useState} from 'react'
 import './Sidebar.css';
 import { assets } from '../../assets/assets';
+import { auth } from '../../lib/firebase';
+import { Context } from '../../context/context';
+import { useContext } from 'react';
+import { signOut } from 'firebase/auth';
 
 const Sidebar = () => {
     const [extended, setExtended] = useState(false)
+    const {setUser,setPass,setEmail} = useContext(Context)
+    const signOutLogic = async() =>{
+        await signOut(auth);
+        setUser("");
+        setPass("");
+        setEmail("");
+    }
   return (
    <div className="sidebar">
         <div className="top">
@@ -37,6 +48,10 @@ const Sidebar = () => {
             <div className="bottom-item recent-entry">
                 <img src={assets.setting_icon} alt="" />
                 {extended?<p>Settings</p>:null}
+            </div>
+            <div className="bottom-item recent-entry">
+                <img onClick={signOutLogic} src={assets.logout_icon} alt="" />
+                {extended?<p>logout</p>:null}
             </div>
         </div>
    </div>

@@ -1,0 +1,95 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+.form-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+  }
+  
+  /* Form Styling */
+  .form-signin {
+    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  /* Logo Styling */
+  .form-logo {
+    margin-bottom: 1rem;
+  }
+  
+  /* Form Title */
+  .form-title {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Form Group Styling */
+  .form-group {
+    margin-top: 1rem;
+    text-align: left;
+  }
+  
+  /* Input Field Styling */
+  .form-input {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  /* Button Styling */
+  .btn-submit {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 1.5rem;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .btn-submit:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Footer Text */
+  .form-footer {
+    margin-top: 2rem;
+    color: #666;
+    font-size: 0.85rem;
+  }
+  .logout{
+    background-color: rgb(75, 75, 233);
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 10px;
+    color: white;
+    border: none;
+  }
+  .logout:hover{
+    background-color: rgb(245, 97, 97);
+  }
+  button{
+    &:disabled{
+      cursor: not-allowed;
+      background-color: rgb(33, 64, 148);
+    }
+  }
+  

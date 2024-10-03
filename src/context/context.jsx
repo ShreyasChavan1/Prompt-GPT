@@ -1,10 +1,13 @@
-import { createContext, useState } from "react";
+import { createContext, useState,useEffect } from "react";
 import run from "../config/gemini";
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from "../lib/firebase";
+
 
 export const Context = createContext();
 
 const ContextProvider = (props) => {
-
+//for generative Ai
     const [input,setInput] = useState("");
     const [recentPrompts ,setRecentPrompts] = useState("");
     const [prevPrompts,setPrevPrompts] = useState([]);
@@ -12,16 +15,32 @@ const ContextProvider = (props) => {
     const [loading,setLoading] = useState(false);
     const [resultData,setResultData] = useState("");
 
-    const delayPara = (index,nextWord) =>{
+    //for login
+    const [email,setEmail] = useState("");
+    const [pass,setPass] = useState("");
+//saving login cred
+    const [user,setUser] = useState(false);
+        useEffect(() => {
+          const unsubscribe = onAuthStateChanged(auth, (user) => {
+              setUser(user);
+          });
+          return () => {
+            unsubscribe();
+        };
+      }, []);
 
-    }
 
     const onSent = async (prompt) =>{
+        // const message = prompt || input;
+
+        // if (!message.trim()) {
+        //     return;
+        // }
         setResultData("");
         setLoading(true);
         setShowResult(true);
-        setRecentPrompts(input);
-       const responce =  await run(input);
+        setRecentPrompts(prompt);
+       const responce =  await run(prompt);
        let responseArray = responce.split("**");
        let newResponse;
        for(let i=0;i<responseArray.length;i++){
@@ -31,7 +50,8 @@ const ContextProvider = (props) => {
             newResponse += "<b>"+responseArray[i]+"</b>";
         }
        }
-       setResultData(newResponse);
+       let newResponse2 = newResponse.split("*").join("<br>");
+       setResultData(newResponse2);
        setLoading(false);
        setInput("");
     }
@@ -49,7 +69,14 @@ const ContextProvider = (props) => {
         resultData,
         onSent,
         input,
-        setInput
+        setInput,
+
+        user,
+        setUser,
+        email,
+        setEmail,
+        pass,
+        setPass
     }
 
     return (
