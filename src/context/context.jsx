@@ -31,16 +31,16 @@ const ContextProvider = (props) => {
 
 
     const onSent = async (prompt) =>{
-        // const message = prompt || input;
+        const message = prompt || input;
 
-        // if (!message.trim()) {
-        //     return;
-        // }
+        if (!message.trim()) {
+            return;
+        }
         setResultData("");
         setLoading(true);
         setShowResult(true);
-        setRecentPrompts(prompt);
-       const responce =  await run(prompt);
+        setRecentPrompts(input);
+       const responce =  await run(input);
        let responseArray = responce.split("**");
        let newResponse;
        for(let i=0;i<responseArray.length;i++){
