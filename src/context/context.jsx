@@ -2,6 +2,9 @@ import { createContext, useState,useEffect } from "react";
 import run from "../config/gemini";
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from "../lib/firebase";
+import { doc , setDoc ,updateDoc } from "firebase/firestore";
+import { db } from "../lib/firebase";
+import { arrayUnion } from "firebase/firestore";
 
 
 export const Context = createContext();
@@ -14,6 +17,7 @@ const ContextProvider = (props) => {
     const [showResult,setShowResult] = useState(false);
     const [loading,setLoading] = useState(false);
     const [resultData,setResultData] = useState("");
+    
 
     //for login
     const [email,setEmail] = useState("");
@@ -41,6 +45,7 @@ const ContextProvider = (props) => {
         setShowResult(true);
         setRecentPrompts(input);
        const responce =  await run(input);
+
        let responseArray = responce.split("**");
        let newResponse;
        for(let i=0;i<responseArray.length;i++){
@@ -52,6 +57,22 @@ const ContextProvider = (props) => {
        }
        let newResponse2 = newResponse.split("*").join("<br>");
        setResultData(newResponse2);
+
+       try {
+        const userDocRef = doc(db, "userChats", user.uid);
+
+        await updateDoc(userDocRef, {
+            chats: arrayUnion({
+                prompt: message,
+                response: newResponse2,
+                timestamp: new Date(),
+            }),
+        });
+        console.log("Chat appended successfully");
+    } catch (error) {
+        console.error("Error updating chat: ", error);
+    }
+
        setLoading(false);
        setInput("");
     }
@@ -76,7 +97,10 @@ const ContextProvider = (props) => {
         email,
         setEmail,
         pass,
-        setPass
+        setPass,
+
+        // chathistory,
+        // setChathistory
     }
 
     return (

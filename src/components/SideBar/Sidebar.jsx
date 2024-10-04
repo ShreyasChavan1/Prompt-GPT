@@ -1,20 +1,45 @@
-import {React , useState} from 'react'
+import {React , useState , useEffect} from 'react'
 import './Sidebar.css';
 import { assets } from '../../assets/assets';
 import { auth } from '../../lib/firebase';
 import { Context } from '../../context/context';
 import { useContext } from 'react';
 import { signOut } from 'firebase/auth';
+import { doc , getDoc} from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 
 const Sidebar = () => {
     const [extended, setExtended] = useState(false)
-    const {setUser,setPass,setEmail} = useContext(Context)
+    const {setPass,setEmail,user} = useContext(Context);
+    const [chathistory, setChathistory] = useState([]);
+
     const signOutLogic = async() =>{
         await signOut(auth);
-        setUser("");
+        // setUser("");
         setPass("");
         setEmail("");
     }
+    const loadPrompts = async (userId) => {
+        const userDocRef = doc(db, "userChats", userId);
+        try {
+          const docSnap = await getDoc(userDocRef);
+          if (docSnap.exists()) {
+            const chatData = docSnap.data().chats;
+            const prompts = chatData.map((chat) => chat.prompt);
+            setChathistory(prompts);
+          } else {
+            console.log("No prompts found.");
+          }
+        } catch (error) {
+          console.error("Error loading prompts: ", error);
+        }
+      };
+    
+      useEffect(() => {
+        if (user) {
+          loadPrompts(user.uid);
+        }
+      }, [user]);
   return (
    <div className="sidebar">
         <div className="top">
@@ -26,14 +51,18 @@ const Sidebar = () => {
             </div>
                 {extended?
             <div className="recent">
-                <p className="recent-title">
-                    Recent
-                </p>
-                    <div className="recent-entry">
-                        <img src={assets.message_icon} alt="" />
-                        <p>What is react ...</p>
-                    </div>
-            </div>
+            <p className="recent-title">Recent</p>
+            {chathistory.length > 0 ? (
+              chathistory.map((prompt, index) => (
+                <div key={index} className="recent-entry">
+                  <img src={assets.message_icon} alt="Recent Entry" />
+                  <p>{prompt.length > 15 ? prompt.slice(0, 15) + "..." : prompt}</p>
+                </div>
+              ))
+            ) : (
+              <p>No recent chats</p>
+            )}
+          </div>
                 :null}
         </div>
         <div className="bottom">

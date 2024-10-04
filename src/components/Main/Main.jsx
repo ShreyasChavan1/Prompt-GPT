@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import './Main.css';
 import { assets } from '../../assets/assets';
 import { Context } from '../../context/context';
+import { setDoc } from 'firebase/firestore';
 import run from '../../config/gemini';
 
 
@@ -9,7 +10,7 @@ import run from '../../config/gemini';
 
 const Main = (props) => {
   const {setInput,input,onSent,loading,showResult,recentPrompts,resultData,email} = useContext(Context);
-
+   
   return (
     <div className="main">
         <div className="nav">
