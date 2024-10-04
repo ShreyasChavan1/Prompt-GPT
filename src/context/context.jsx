@@ -2,7 +2,7 @@ import { createContext, useState,useEffect } from "react";
 import run from "../config/gemini";
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from "../lib/firebase";
-import { doc , setDoc ,updateDoc } from "firebase/firestore";
+import { doc  ,updateDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { arrayUnion } from "firebase/firestore";
 
@@ -13,11 +13,13 @@ const ContextProvider = (props) => {
 //for generative Ai
     const [input,setInput] = useState("");
     const [recentPrompts ,setRecentPrompts] = useState("");
-    const [prevPrompts,setPrevPrompts] = useState([]);
+    // const [prevPrompts,setPrevPrompts] = useState([]);
     const [showResult,setShowResult] = useState(false);
     const [loading,setLoading] = useState(false);
     const [resultData,setResultData] = useState("");
-    
+    const [chathistory, setChathistory] = useState([]);
+
+    const[getchat,setGetchat] = useState(null);
 
     //for login
     const [email,setEmail] = useState("");
@@ -35,6 +37,7 @@ const ContextProvider = (props) => {
 
 
     const onSent = async (prompt) =>{
+        // setGetchat({})
         const message = prompt || input;
 
         if (!message.trim()) {
@@ -81,11 +84,12 @@ const ContextProvider = (props) => {
     
 
     const contextValue = {
-        prevPrompts,
-        setPrevPrompts,
+        // prevPrompts,
+        // setPrevPrompts,
         recentPrompts,
         setRecentPrompts,
         loading,
+        setShowResult,
         showResult,
         resultData,
         onSent,
@@ -99,8 +103,11 @@ const ContextProvider = (props) => {
         pass,
         setPass,
 
-        // chathistory,
-        // setChathistory
+        chathistory,
+        setChathistory
+
+        ,getchat,
+        setGetchat
     }
 
     return (

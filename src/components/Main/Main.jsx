@@ -9,7 +9,7 @@ import run from '../../config/gemini';
 
 
 const Main = (props) => {
-  const {setInput,input,onSent,loading,showResult,recentPrompts,resultData,email} = useContext(Context);
+  const {setInput,input,onSent,loading,showResult,recentPrompts,resultData,getchat} = useContext(Context);
    
   return (
     <div className="main">
@@ -18,12 +18,25 @@ const Main = (props) => {
             <img src={assets.user_icon} alt=""/>
         </div>
         <div className="main-container">
-        
-        
-        {!showResult?
+
+        {  
+        getchat ? (
+        <div className="result">
+            <div className="result-title">
+                <img src={assets.user_icon} alt="" />
+                <p>{getchat.prompt}</p> {/* Display the prompt from getChat */}
+            </div>
+            <div className="result-data">
+                <img src={assets.gemini_icon} alt="" />
+                    <p dangerouslySetInnerHTML={{ __html: getchat.response }}></p> 
+            </div>
+        </div>
+    ) : (
+
+      !showResult?
         <>
             <div className="greet">
-              <p><span>Hello , {email}</span></p>
+              <p><span>Hello , User</span></p>
               <p>How can I help you Today ?</p>
             </div>
             
@@ -67,7 +80,12 @@ const Main = (props) => {
                 }
               </div>
             </div>
-            }
+            
+
+
+    )
+  }  
+        
             <div className="main-bottom">
               <div className="searchbox">
                 <input onChange={(e)=>setInput(e.target.value)} value={input} type="text" placeholder='Enter your prompt here' />

@@ -5,14 +5,14 @@ import { auth } from '../../lib/firebase';
 import { Context } from '../../context/context';
 import { useContext } from 'react';
 import { signOut } from 'firebase/auth';
-import { doc , getDoc} from 'firebase/firestore';
+import { doc , getDoc, getDocs, query} from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 
 const Sidebar = () => {
     const [extended, setExtended] = useState(false)
-    const {setPass,setEmail,user} = useContext(Context);
-    const [chathistory, setChathistory] = useState([]);
-
+    const {setPass,setEmail,user,chathistory,setChathistory,setGetchat,getchat,setShowResult} = useContext(Context);
+    
+    
     const signOutLogic = async() =>{
         await signOut(auth);
         // setUser("");
@@ -22,18 +22,39 @@ const Sidebar = () => {
     const loadPrompts = async (userId) => {
         const userDocRef = doc(db, "userChats", userId);
         try {
-          const docSnap = await getDoc(userDocRef);
-          if (docSnap.exists()) {
-            const chatData = docSnap.data().chats;
-            const prompts = chatData.map((chat) => chat.prompt);
-            setChathistory(prompts);
-          } else {
-            console.log("No prompts found.");
-          }
+            const docSnap = await getDoc(userDocRef);
+            if (docSnap.exists()) {
+                const chatData = docSnap.data().chats;
+                const prompts = chatData.map((chat) => chat.prompt);
+                setChathistory(prompts);
+            } else {
+                console.log("No prompts found.");
+            }
         } catch (error) {
-          console.error("Error loading prompts: ", error);
+            console.error("Error loading prompts: ", error);
         }
-      };
+    };
+    const loadChat = async (prompt) => {
+        const userChatRef = doc(db, "userChats", user.uid); 
+        try {
+            const docSnap = await getDoc(userChatRef); 
+            if (docSnap.exists()) {
+                const chatData = docSnap.data().chats;  
+                const foundChat = chatData.find(chat => chat.prompt === prompt);
+                if (foundChat) {
+                    setGetchat({prompt:foundChat.prompt,response:foundChat.response}) ;
+                    console.log(getchat)
+                } else {
+                    console.log("Chat not found for the prompt.");
+                }
+            } else {
+                console.log("No chat document found for the user.");
+            }
+        } catch (error) {
+            console.error("Error loading chat: ", error);
+        }
+    }
+
     
       useEffect(() => {
         if (user) {
@@ -44,7 +65,10 @@ const Sidebar = () => {
    <div className="sidebar">
         <div className="top">
             <img src={assets.menu_icon} alt="" onClick={()=>setExtended(prev=>!prev)} className="menu" />
-            <div className="new-chat">
+              <div onClick={() => {
+                  setShowResult(false); 
+                  setGetchat(null);    
+              }} className="new-chat">
                 <img src={assets.plus_icon} alt="" />
                 {extended?<p>New Chat</p>:null} 
                 {/* //sidebar extended or collapsed loggic */}
@@ -54,7 +78,7 @@ const Sidebar = () => {
             <p className="recent-title">Recent</p>
             {chathistory.length > 0 ? (
               chathistory.map((prompt, index) => (
-                <div key={index} className="recent-entry">
+                <div onClick={()=>loadChat(prompt)} key={index} className="recent-entry">
                   <img src={assets.message_icon} alt="Recent Entry" />
                   <p>{prompt.length > 15 ? prompt.slice(0, 15) + "..." : prompt}</p>
                 </div>
