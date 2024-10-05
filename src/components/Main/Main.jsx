@@ -10,7 +10,7 @@ import { signOut } from 'firebase/auth';
 
 
 const Main = (props) => {
-  const {setInput,input,onSent,loading,showResult,recentPrompts,resultData,getchat,user,setPass,setEmail} = useContext(Context);
+  const {setInput,input,onSent,loading,showResult,recentPrompts,resultData,getchat,user,setPass,setEmail,setShowResult,setGetchat} = useContext(Context);
   const [username,setUsername] = useState("");
    const getUsername = async (userid) => {
       const docref = doc(db,"user",userid);
@@ -37,7 +37,10 @@ const Main = (props) => {
   return (
     <div className="main">
         <div className="nav">
-            <p>bhAI</p>
+            <p onClick={() => {
+                  setShowResult(false); 
+                  setGetchat(null);    
+              }}>bhAI</p>
             <img onClick={()=>{signOutl()}}  src={assets.user_icon} alt=""/>
         </div>
         <div className="main-container">
