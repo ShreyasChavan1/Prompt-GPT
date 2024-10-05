@@ -1,21 +1,44 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Main.css';
 import { assets } from '../../assets/assets';
 import { Context } from '../../context/context';
-import { setDoc } from 'firebase/firestore';
-import run from '../../config/gemini';
+import { doc, setDoc , getDoc} from 'firebase/firestore';
+import { auth, db } from '../../lib/firebase';
+import { signOut } from 'firebase/auth';
 
 
 
 
 const Main = (props) => {
-  const {setInput,input,onSent,loading,showResult,recentPrompts,resultData,getchat} = useContext(Context);
-   
+  const {setInput,input,onSent,loading,showResult,recentPrompts,resultData,getchat,user,setPass,setEmail} = useContext(Context);
+  const [username,setUsername] = useState("");
+   const getUsername = async (userid) => {
+      const docref = doc(db,"user",userid);
+      try {
+        const docs = await getDoc(docref);
+        const usernme = docs.data().username;
+        setUsername(usernme);
+        }
+       catch (error) {
+        alert(error);
+      }
+   }
+   useEffect(()=>{
+      getUsername(user.uid)
+   },[user])
+
+   const signOutl = async() =>{
+    await signOut(auth);
+    // setUser("");
+    setPass("");
+    setEmail("");
+}
+
   return (
     <div className="main">
         <div className="nav">
             <p>bhAI</p>
-            <img src={assets.user_icon} alt=""/>
+            <img onClick={()=>{signOutl()}}  src={assets.user_icon} alt=""/>
         </div>
         <div className="main-container">
 
@@ -36,7 +59,7 @@ const Main = (props) => {
       !showResult?
         <>
             <div className="greet">
-              <p><span>Hello , User</span></p>
+              <p><span>Hello , {username}</span></p>
               <p>How can I help you Today ?</p>
             </div>
             
@@ -92,7 +115,7 @@ const Main = (props) => {
                 <div>
                   <img src={assets.gallery_icon} alt="" />
                   <img src={assets.mic_icon} alt="" />
-                  <img onClick={()=>onSent()} src={assets.send_icon} alt="" />
+                  {input?<img onClick={()=>onSent()} src={assets.send_icon} alt="" />:null}
                 </div>
               </div>
               <p className="bottom-info">

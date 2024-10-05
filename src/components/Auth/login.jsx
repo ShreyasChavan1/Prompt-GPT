@@ -8,17 +8,7 @@ import { Context } from '../../context/context';
 
 
 const Login = () => {
-  //   const [user,setUser] =useState({});
-    
 
-  //   useEffect(() => {
-  //     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
-  //         setUser(currentuser);
-  //     });
-  //     return () => {
-  //       unsubscribe();
-  //   };
-  // }, []);
   const [load,setLoad] = useState(false);
 
   const {user,setUser,email,setEmail,pass,setPass} = useContext(Context);
@@ -65,11 +55,6 @@ const Login = () => {
           setLoad(false);
         }
     }
-    const signout = async () => {
-        await signOut(auth);
-        setEmail("");
-        setPass("");
-    }
   return (
     <>
     <div className="form-container">
@@ -112,8 +97,6 @@ const Login = () => {
 
         <button disabled={load} type="submit" onClick={handleRegister} className="btn-submit">{load?"loading":"Register"}</button>
         <button disabled={load} onClick={handleLogin}className="btn-submit">{load?"loading":"login"}</button>
-        <p style={{marginTop:"5px"}}> Logged in as {user?.email}</p>
-        <button className='logout' onClick={signout}>logout</button>
         <p className="form-footer">&copy; Vighnesh & Shreyas Co.</p>
       </form>
       </main>

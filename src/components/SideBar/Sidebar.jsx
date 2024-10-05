@@ -5,12 +5,12 @@ import { auth } from '../../lib/firebase';
 import { Context } from '../../context/context';
 import { useContext } from 'react';
 import { signOut } from 'firebase/auth';
-import { doc , getDoc, getDocs, query} from 'firebase/firestore';
+import { doc , getDoc} from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 
 const Sidebar = () => {
-    const [extended, setExtended] = useState(false)
-    const {setPass,setEmail,user,chathistory,setChathistory,setGetchat,getchat,setShowResult} = useContext(Context);
+    
+    const {setPass,setEmail,user,chathistory,setChathistory,setGetchat,getchat,setShowResult,extended,setExtended,onSent} = useContext(Context);
     
     
     const signOutLogic = async() =>{
@@ -60,7 +60,7 @@ const Sidebar = () => {
         if (user) {
           loadPrompts(user.uid);
         }
-      }, [user]);
+      }, [chathistory]);
   return (
    <div className="sidebar">
         <div className="top">
@@ -91,7 +91,7 @@ const Sidebar = () => {
         </div>
         <div className="bottom">
             <div className="bottom-item recent-entry">
-                <img src={assets.question_icon} alt="" />
+                <img onClick={()=>onSent("Please help me with usage of google Gemini")} src={assets.question_icon} alt="" />
                 {extended?<p>Help</p>:null}
             </div>
             <div className="bottom-item recent-entry">

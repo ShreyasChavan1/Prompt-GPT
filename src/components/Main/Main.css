@@ -38,6 +38,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
 .main .cards{
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
@@ -158,4 +159,45 @@
     font-size: 17px;
     font-weight: 300;
     line-height: 1.8;
+}
+
+@media(max-width:600px){
+    .main-bottom input{
+        flex: none;
+        width: 150px;
+    }
+    .main-bottom img{
+        width: 20px;
+    }
+    .searchbox{
+        padding: 5px 10px;
+    }
+    .searchbox div{
+        gap: 5px;
+    }
+    .searchbox input{
+        font-size: 13px;
+    }
+    .main .cards{
+        display: flex;
+        /* grid-template-row: repeat(auto-fill,minmax(180px,1fr)); */
+        flex-wrap: wrap;
+        max-width: 100%;
+        gap: 15px;
+        padding: 20px;
+    }
+    .main .card{
+        height: 100px;
+        width: 130px;
+    }
+    .main .card img{
+        width: 25px;
+    }
+    .main .card p{
+        font-size: 12px;
+    }
+    .main .greet{
+        font-size: 40px;
+    }
+
 }

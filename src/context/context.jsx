@@ -10,6 +10,7 @@ import { arrayUnion } from "firebase/firestore";
 export const Context = createContext();
 
 const ContextProvider = (props) => {
+    const [extended, setExtended] = useState(false)
 //for generative Ai
     const [input,setInput] = useState("");
     const [recentPrompts ,setRecentPrompts] = useState("");
@@ -37,7 +38,6 @@ const ContextProvider = (props) => {
 
 
     const onSent = async (prompt) =>{
-        // setGetchat({})
         const message = prompt || input;
 
         if (!message.trim()) {
@@ -46,8 +46,8 @@ const ContextProvider = (props) => {
         setResultData("");
         setLoading(true);
         setShowResult(true);
-        setRecentPrompts(input);
-       const responce =  await run(input);
+        setRecentPrompts(message);
+       const responce =  await run(message);
 
        let responseArray = responce.split("**");
        let newResponse;
@@ -84,6 +84,8 @@ const ContextProvider = (props) => {
     
 
     const contextValue = {
+        extended,
+        setExtended,
         // prevPrompts,
         // setPrevPrompts,
         recentPrompts,
