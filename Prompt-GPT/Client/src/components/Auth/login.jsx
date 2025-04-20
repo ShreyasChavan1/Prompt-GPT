@@ -1,5 +1,5 @@
-import React, { useState ,useEffect} from 'react'
-import { createUserWithEmailAndPassword ,onAuthStateChanged, signInWithEmailAndPassword, signOut} from 'firebase/auth';
+import React, { useState } from 'react'
+import { createUserWithEmailAndPassword , signInWithEmailAndPassword} from 'firebase/auth';
 import './login.css';
 import { db,auth } from '../../../../Backend/lib/firebase';
 import {doc, setDoc } from 'firebase/firestore';
@@ -11,7 +11,7 @@ const Login = () => {
 
   const [load,setLoad] = useState(false);
 
-  const {user,setUser,email,setEmail,pass,setPass} = useContext(Context);
+  const {email,setEmail,pass,setPass} = useContext(Context);
   const [username,setUsername] = useState("");
 
     const handleRegister = async (e) =>{

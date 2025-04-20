@@ -40,7 +40,7 @@ const Main = (props) => {
             <p onClick={() => {
                   setShowResult(false); 
                   setGetchat(null);    
-              }}>Prompt-GPT</p>
+              }}>Gemini</p>
             <img onClick={()=>{signOutl()}}  src={assets.user_icon} alt=""/>
         </div>
         <div className="main-container">
@@ -122,7 +122,7 @@ const Main = (props) => {
                 </div>
               </div>
               <p className="bottom-info">
-                Prompt-GPT may display inaccurate info, including about people please double check before usage
+                Gemini may display inaccurate info, including about people please double check before usage
               </p>
             </div>
         </div>
