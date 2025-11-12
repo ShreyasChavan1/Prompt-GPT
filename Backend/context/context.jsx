@@ -2,7 +2,7 @@ import { createContext, useState,useEffect } from "react";
 import run from "../config/gemini";
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from "../lib/firebase";
-import { doc  ,updateDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { arrayUnion } from "firebase/firestore";
 
@@ -61,16 +61,31 @@ const ContextProvider = (props) => {
        let newResponse2 = newResponse.split("*").join("<br>");
        setResultData(newResponse2);
 
-       try {
-        const userDocRef = doc(db, "userChats", user.uid);
+        try {
+        console.log("Current user:", user);
 
-        await updateDoc(userDocRef, {
-            chats: arrayUnion({
-                prompt: message,
-                response: newResponse2,
-                timestamp: new Date(),
-            }),
-        });
+        const userDocRef = doc(db, "userChats", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+  await updateDoc(userDocRef, {
+    chats: arrayUnion({
+      prompt: message,
+      response: newResponse2,
+      timestamp: new Date(),
+    }),
+  });
+} else {
+  await setDoc(userDocRef, {
+    chats: [
+      {
+        prompt: message,
+        response: newResponse2,
+        timestamp: new Date(),
+      },
+    ],
+  });
+}
         console.log("Chat appended successfully");
     } catch (error) {
         console.error("Error updating chat: ", error);
