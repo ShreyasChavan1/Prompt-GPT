@@ -1,5 +1,5 @@
 import { createContext, useState,useEffect } from "react";
-import run from "../config/gemini";
+import run from "../server/config/gemini";
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from "../lib/firebase";
 import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
@@ -36,6 +36,16 @@ const ContextProvider = (props) => {
         };
       }, []);
 
+    const getresponse = async (message) =>{
+        const res = await fetch("https.your.vercel.app/api-gekdkjfkd",{
+            method: "POST",
+            headers:{"Content-type":"application/json"},
+            body:JSON.stringify({prompt:message})
+        })
+        const data = await res.json();
+        console.log(data.response);
+        return data.response
+    }
 
     const onSent = async (prompt) =>{
         const message = prompt || input;
@@ -47,7 +57,7 @@ const ContextProvider = (props) => {
         setLoading(true);
         setShowResult(true);
         setRecentPrompts(message);
-       const responce =  await run(message);
+       const responce =  await getresponse(message);
 
        let responseArray = responce.split("**");
        let newResponse;
