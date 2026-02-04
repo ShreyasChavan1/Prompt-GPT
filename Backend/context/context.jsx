@@ -37,7 +37,7 @@ const ContextProvider = (props) => {
       }, []);
 
     const getresponse = async (message) =>{
-        const res = await fetch("https.your.vercel.app/api-gekdkjfkd",{
+        const res = await fetch("https://prompt-gpt.vercel.app/api/ask-gemini",{
             method: "POST",
             headers:{"Content-type":"application/json"},
             body:JSON.stringify({prompt:message})
