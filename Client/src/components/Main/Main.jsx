@@ -10,24 +10,7 @@ import { signOut } from 'firebase/auth';
 
 
 const Main = (props) => {
-  const {setInput,input,onSent,loading,showResult,recentPrompts,resultData,getchat,user,setPass,setEmail,setShowResult,setGetchat} = useContext(Context);
-  const [username,setUsername] = useState("");
-   const getUsername = async (userid) => {
-      const docref = doc(db,"user",userid);
-      try {
-        const docs = await getDoc(docref);
-        const data = docs.data();
-const usernme = data?.username || "there";
-setUsername(usernme);
-        }
-       catch (error) {
-        alert(error);
-      }
-   }
-   useEffect(()=>{
-    if (!user?.uid) return;
-      getUsername(user.uid)
-   },[user])
+  const {setInput,input,onSent,loading,showResult,recentPrompts,resultData,getchat,user,setPass,setEmail,setShowResult,setGetchat,username} = useContext(Context);
 
    const signOutl = async() =>{
     await signOut(auth);

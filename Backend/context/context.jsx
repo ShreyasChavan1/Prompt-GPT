@@ -27,9 +27,26 @@ const ContextProvider = (props) => {
     const [pass,setPass] = useState("");
 //saving login cred
     const [user,setUser] = useState(false);
+    const [username, setUsername] = useState("");
         useEffect(() => {
           const unsubscribe = onAuthStateChanged(auth, (user) => {
               setUser(user);
+              if (user) {
+                  const getUsername = async () => {
+                      const docref = doc(db, "user", user.uid);
+                      try {
+                          const docs = await getDoc(docref);
+                          const data = docs.data();
+                          const usernme = data?.username || "there";
+                          setUsername(usernme);
+                      } catch (error) {
+                          console.error(error);
+                      }
+                  };
+                  getUsername();
+              } else {
+                  setUsername("");
+              }
           });
           return () => {
             unsubscribe();
