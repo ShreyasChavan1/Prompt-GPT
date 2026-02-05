@@ -16,14 +16,16 @@ const Main = (props) => {
       const docref = doc(db,"user",userid);
       try {
         const docs = await getDoc(docref);
-        const usernme = docs.data().username;
-        setUsername(usernme);
+        const data = docs.data();
+const usernme = data?.username || "there";
+setUsername(usernme);
         }
        catch (error) {
         alert(error);
       }
    }
    useEffect(()=>{
+    if (!user?.uid) return;
       getUsername(user.uid)
    },[user])
 

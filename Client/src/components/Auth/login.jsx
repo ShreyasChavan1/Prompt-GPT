@@ -97,7 +97,7 @@ const Login = () => {
 
         <button disabled={load} type="submit" onClick={handleRegister} className="btn-submit">{load?"loading":"Register"}</button>
         <button disabled={load} onClick={handleLogin}className="btn-submit">{load?"loading":"login"}</button>
-        <p className="form-footer">&copy; Vighnesh & Shreyas Co.</p>
+        <p className="form-footer">&copy; Shreyas Co.</p>
       </form>
       </main>
       </div>
