@@ -145,7 +145,7 @@ const ContextProvider = (props) => {
         setEmail,
         pass,
         setPass,
-
+        username,
         chathistory,
         setChathistory
 
