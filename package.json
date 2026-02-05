@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "homepage": "https://ShreyasChavan1.github.io/bhAI"
+    "homepage": "https://ShreyasChavan1.github.io/Prompt-GPT"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
