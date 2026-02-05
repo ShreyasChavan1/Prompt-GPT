@@ -1,7 +1,7 @@
 import run from "../config/gemini"
 export default async function handler(req, res) {
     // Set CORS headers
-    res.setHeader('Access-Control-Allow-Origin', 'https://shreyaschavan1.github.io');
+    res.setHeader('Access-Control-Allow-Origin', 'https://shreyaschavan1.github.io/Chatbot');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
