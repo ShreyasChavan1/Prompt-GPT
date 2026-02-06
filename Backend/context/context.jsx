@@ -18,7 +18,6 @@ const ContextProvider = (props) => {
     const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
     const [resultData, setResultData] = useState("");
-    // const [chathistory, setChathistory] = useState([]);
 
     const [username, setUsername] = useState("")
 
