@@ -11,8 +11,8 @@ const Login = () => {
 
   const [load,setLoad] = useState(false);
 
-  const {email,setEmail,pass,setPass} = useContext(Context);
-  const [username,setUsername] = useState("");
+  const {email,setEmail,pass,setPass,setUsername} = useContext(Context);
+  
 
     const handleRegister = async (e) =>{
         try {

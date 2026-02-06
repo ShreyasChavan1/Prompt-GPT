@@ -10,7 +10,7 @@ import { signOut } from 'firebase/auth';
 
 
 const Main = (props) => {
-  const {setInput,input,onSent,loading,showResult,recentPrompts,resultData,getchat,user,setPass,setEmail,setShowResult,setGetchat,username} = useContext(Context);
+  const {setInput,input,onSent,loading,showResult,recentPrompts,resultData,setPass,setEmail,setShowResult,username,conversation} = useContext(Context);
 
    const signOutl = async() =>{
     await signOut(auth);
@@ -24,24 +24,41 @@ const Main = (props) => {
         <div className="nav">
             <p onClick={() => {
                   setShowResult(false); 
-                  setGetchat(null);    
+                      
               }}>Gemini</p>
             <img onClick={()=>{signOutl()}}  src={assets.user_icon} alt=""/>
         </div>
         <div className="main-container">
 
         {  
-        getchat ? (
-        <div className="result">
-            <div className="result-title">
-                <img src={assets.user_icon} alt="" />
-                <p>{getchat.prompt}</p> {/* Display the prompt from getChat */}
-            </div>
-            <div className="result-data">
-                <img src={assets.gemini_icon} alt="" />
-                    <p dangerouslySetInnerHTML={{ __html: getchat.response }}></p> 
-            </div>
+        conversation.length() > 0 ? (
+       <div className="result">
+
+    {conversation.map((m, i) => (
+      <div key={i}>
+
+        <div className="result-title">
+          <img src={assets.user_icon} alt="" />
+          <p>{m.role === "user" ? m.text : ""}</p>
         </div>
+
+        {m.role === "model" && (
+          <div className="result-data">
+            <img src={assets.gemini_icon} alt="" />
+            <p>{m.text}</p>
+          </div>
+        )}
+
+      </div>
+    ))}
+
+    {loading && (
+      <div className="loader">
+        <hr /><hr /><hr />
+      </div>
+    )}
+
+  </div>
     ) : (
 
       !showResult?
@@ -73,27 +90,22 @@ const Main = (props) => {
              : 
              
             <div className="result">
-              <div className="result-title">
-                <img src={assets.user_icon} alt="" />
-                <p>{recentPrompts}</p>
-              </div>
-              <div className="result-data">
-                <img src={assets.gemini_icon} alt="" />
-                {loading?
-                <div className="loader">
-                  <hr />
-                  <hr />
-                  <hr />
-                </div>  
-                :
-                <p dangerouslySetInnerHTML={{__html:resultData}}></p>
-                // <p>{resultData}</p>
-                }
-              </div>
-            </div>
-            
+      <div className="result-title">
+        <img src={assets.user_icon} alt="" />
+        <p>{input}</p>
+      </div>
 
-
+      <div className="result-data">
+        <img src={assets.gemini_icon} alt="" />
+        {loading ? (
+          <div className="loader">
+            <hr /><hr /><hr />
+          </div>
+        ) : (
+          <p>Waiting for Gemini…</p>
+        )}
+      </div>
+    </div>
     )
   }  
         

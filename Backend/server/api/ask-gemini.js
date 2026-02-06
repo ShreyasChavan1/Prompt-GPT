@@ -19,13 +19,13 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: "Use POST" });
     }
 
-    const { prompt } = req.body;
+    const { prompt,history } = req.body;
     if (!prompt) {
         return res.status(400).json({ error: "No prompt provided" });
     }
 
     try {
-        const response = await run(prompt);
+        const response = await run(prompt,history);
         res.status(200).json({ response });
     } catch (err) {
         console.error(err);

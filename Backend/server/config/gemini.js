@@ -30,13 +30,12 @@ import {
   };
   
 //   we've added the prompt prop which we will get from inputfield
-  async function run(prompt) {
+  async function run(prompt,history=[]) {
     const chatSession = model.startChat({
       generationConfig,
    // safetySettings: Adjust safety settings
    // See https://ai.google.dev/gemini-api/docs/safety-settings
-      history: [
-      ],
+      history: history,
     });
   
     const result = await chatSession.sendMessage(prompt);
