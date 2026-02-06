@@ -45,10 +45,8 @@ const ContextProvider = (props) => {
         if(!user)return;
         const threadsRef =  collection(db, "userChats", user.uid,"threads");
         const unsub = onSnapshot(threadsRef,(snap)=>{
-            if(snap.exists){
-                const list = snap.docs.map(d => ({id:d.id,...d.data()}));
-                setThreads(list)
-            }
+            const list = snap.docs.map(d => ({id:d.id,...d.data()}));
+            setThreads(list)
         })
         return ()=>unsub();
     },[user])
@@ -151,7 +149,7 @@ const reply = response?.response || "Sorry, Gemini failed to answer.";
     await setDoc(
       threadRef,
       {
-        lastMessage: reply,
+        lastMessage: reply || "",
         updatedAt: serverTimestamp()
       },
       { merge: true }
