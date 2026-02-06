@@ -24,10 +24,7 @@ const Sidebar = () => {
    <div className="sidebar">
         <div className="top">
             <img src={assets.menu_icon} alt="" onClick={()=>setExtended(prev=>!prev)} className="menu" />
-              <div onClick={() => {
-                  createnewThread 
-                  setShowResult(false);  
-              }} className="new-chat">
+              <div onClick={createnewThread} className="new-chat">
                 <img src={assets.plus_icon} alt="" />
                 {extended?<p>New Chat</p>:null} 
                 {/* //sidebar extended or collapsed loggic */}

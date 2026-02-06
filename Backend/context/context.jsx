@@ -78,17 +78,6 @@ const ContextProvider = (props) => {
 
         setConversation(msgs)
     }
-    // const getresponse = async (message) => {
-    //     const res = await fetch("https://prompt-gpt.vercel.app/api/ask-gemini", {
-    //         method: "POST",
-    //         headers: { "Content-type": "application/json" },
-    //         credentials: "include",
-    //         body: JSON.stringify({ prompt: message })
-    //     })
-    //     const data = await res.json();
-    //     console.log(data.response);
-    //     return data.response
-    // }
 
     const onSent = async (prompt) => {
         const message = prompt || input;
@@ -159,42 +148,7 @@ const reply = response?.response || "Sorry, Gemini failed to answer.";
     setConversation(prev => [...prev, usermsg, modelmsg]);
     setInput("");
     setLoading(false);
-        // setResultData("");
-        // setLoading(true);
-        // setShowResult(true);
-        // setRecentPrompts(message);
-        // const responce = await getresponse(message);
-
-        // let responseArray = responce.split("**");
-        // let newResponse = ""
-        // for (let i = 0; i < responseArray.length; i++) {
-        //     if (i === 0 || i % 2 !== 1) {
-        //         newResponse += responseArray[i];
-        //     } else {
-        //         newResponse += "<b>" + responseArray[i] + "</b>";
-        //     }
-        // }
-        // let newResponse2 = newResponse.split("*").join("<br>");
-        // setResultData(newResponse2);
-        // try {
-        //     await updateDoc(userDocRef, {
-        //         chats: arrayUnion({
-        //             prompt: message,
-        //             response: newResponse2,
-        //             timestamp: new Date(),
-        //         }),
-        //     });
-        // } catch (err) {
-        //     await setDoc(userDocRef, {
-        //         chats: [{
-        //             prompt: message,
-        //             response: newResponse2,
-        //             timestamp: new Date(),
-        //         }],
-        //     });
-        // }
-        // setLoading(false);
-        // setInput("");
+        
     }
 
 
