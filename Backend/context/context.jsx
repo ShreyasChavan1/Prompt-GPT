@@ -102,14 +102,19 @@ const ContextProvider = (props) => {
             threadId = await createnewThread();
         }
         
+        const geminiHistory = conversation.map(m => ({
+  role: m.role,
+  parts: [{ text: m.text }]
+}));
+console.log(geminiHistory)
         const res = await fetch(
   "https://prompt-gpt.vercel.app/api/ask-gemini",
   {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      prompt: message,
-      history: conversation
+      prompt: message || "",
+      history: geminiHistory
     })
   }
 );
