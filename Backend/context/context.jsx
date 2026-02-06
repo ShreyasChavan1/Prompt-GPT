@@ -200,8 +200,7 @@ const ContextProvider = (props) => {
         pass,
         setPass,
 
-        chathistory,
-        setChathistory,
+        
 
         
 

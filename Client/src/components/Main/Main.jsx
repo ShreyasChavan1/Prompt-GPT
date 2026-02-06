@@ -10,7 +10,7 @@ import { signOut } from 'firebase/auth';
 
 
 const Main = (props) => {
-  const {setInput,input,onSent,loading,showResult,recentPrompts,resultData,setPass,setEmail,setShowResult,username,conversation} = useContext(Context);
+  const {setInput,input,onSent,loading,showResult,setPass,setEmail,setShowResult,username,conversation} = useContext(Context);
 
    const signOutl = async() =>{
     await signOut(auth);
