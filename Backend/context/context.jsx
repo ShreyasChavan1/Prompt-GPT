@@ -60,7 +60,7 @@ const ContextProvider = (props) => {
             updatedAt:serverTimestamp()
         })
         setActiveThreadId(threadsRef.id);
-        setShowResult(true)
+        setShowResult(false)
         setConversation([]);
 
         return threadsRef.id
