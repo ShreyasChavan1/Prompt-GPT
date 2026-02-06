@@ -45,7 +45,7 @@ const ContextProvider = (props) => {
         if(!user)return;
         const threadsRef =  collection(db, "userChats", user.uid,"threads");
         const unsub = onSnapshot(threadsRef,(snap)=>{
-            if(snap.exists()){
+            if(snap.exists){
                 const list = snap.docs.map(d => ({id:d.id,...d.data()}));
                 setThreads(list)
             }
