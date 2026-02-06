@@ -35,20 +35,30 @@ const Sidebar = () => {
            <div className="recent">
         {threads.length === 0 && <p>No chats yet</p>}
 
-        {threads.map(t => (
-          <div
-            key={t.id}
-            className="recent-entry"
-            onClick={() => openThread(t.id)}
-          >
-            <img src={assets.message_icon} alt="" />
-            <p>
-              {t.lastMessage
-                ? t.lastMessage.slice(0, 20) + "..."
-                : "New Chat"}
-            </p>
-          </div>
-        ))}
+        {threads.map(t => {
+  const preview =
+    typeof t.lastMessage === "string"
+      ? t.lastMessage
+      : "";
+
+  return (
+    <div
+      key={t.id}
+      className="recent-entry"
+      onClick={() => openThread(t.id)}
+    >
+      <img src={assets.message_icon} alt="" />
+      <p>
+        {preview
+          ? preview.length > 20
+            ? preview.slice(0, 20) + "..."
+            : preview
+          : "New Chat"}
+      </p>
+    </div>
+  );
+})}
+
       </div>
                 :null}
         </div>

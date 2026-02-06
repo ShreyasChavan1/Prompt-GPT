@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import run from "../server/config/gemini";
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from "../lib/firebase";
-import { doc, updateDoc, getDoc, setDoc ,onSnapshot, collection, serverTimestamp, addDoc} from "firebase/firestore";
+import { doc, updateDoc, getDocs, setDoc ,onSnapshot, collection, serverTimestamp, addDoc} from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { arrayUnion } from "firebase/firestore";
 
