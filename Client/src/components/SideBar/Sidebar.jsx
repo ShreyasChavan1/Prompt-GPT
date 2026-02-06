@@ -10,7 +10,7 @@ import { db } from '../../../../Backend/lib/firebase';
 
 const Sidebar = () => {
     
-    const {setPass,setEmail,extended,setExtended,onSent,threads,openThread,createnewThread} = useContext(Context);
+    const {setPass,setEmail,extended,setExtended,onSent,threads,openThread,createnewThread,setShowResult} = useContext(Context);
     
     const signOutLogic = async() =>{
         await signOut(auth);

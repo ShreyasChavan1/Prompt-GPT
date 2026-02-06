@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import run from "../server/config/gemini";
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from "../lib/firebase";
-import { doc, updateDoc, getDocs, setDoc ,onSnapshot, collection, serverTimestamp, addDoc} from "firebase/firestore";
+import { doc, updateDoc, getDocs, setDoc ,onSnapshot, collection, serverTimestamp, addDoc, orderBy} from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { arrayUnion } from "firebase/firestore";
 
@@ -71,7 +71,9 @@ const ContextProvider = (props) => {
         setShowResult(true);
 
         const msgref = collection(db,"userChats",user.uid,"threads",threadId,"messages");
-        const snap = await getDocs(msgref);
+        const q = query(msgref,orderBy("createdAt","asc"))
+
+        const snap = await getDocs(q);
         const msgs = snap.docs.map(d=>d.data());
 
         setConversation(msgs)
@@ -104,7 +106,7 @@ const ContextProvider = (props) => {
   role: m.role,
   parts: [{ text: m.text }]
 }));
-console.log(geminiHistory)
+
         const res = await fetch(
   "https://prompt-gpt.vercel.app/api/ask-gemini",
   {

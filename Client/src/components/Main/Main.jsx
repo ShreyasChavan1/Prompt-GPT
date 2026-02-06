@@ -35,22 +35,23 @@ const Main = (props) => {
        <div className="result">
 
     {conversation.map((m, i) => (
-      <div key={i}>
+  m.role === "user" ? (
 
-        <div className="result-title">
-          <img src={assets.user_icon} alt="" />
-          <p>{m.role === "user" ? m.text : ""}</p>
-        </div>
+    <div key={i} className="result-title">
+      <img src={assets.user_icon} alt="" />
+      <p>{m.text}</p>
+    </div>
 
-        {m.role === "model" && (
-          <div className="result-data">
-            <img src={assets.gemini_icon} alt="" />
-            <p>{m.text}</p>
-          </div>
-        )}
+  ) : (
 
-      </div>
-    ))}
+    <div key={i} className="result-data">
+      <img src={assets.gemini_icon} alt="" />
+      <p>{m.text}</p>
+    </div>
+
+  )
+))}
+
 
     {loading && (
       <div className="loader">
