@@ -11,7 +11,7 @@ const Login = () => {
 
   const [load, setLoad] = useState(false);
 
-  const { email, setEmail, pass, setPass, setUsername } = useContext(Context);
+  const { email, setEmail, pass, setPass, setUsername ,username} = useContext(Context);
 
 
   const handleRegister = async (e) => {
@@ -25,9 +25,15 @@ const Login = () => {
       await sendEmailVerification(res.user);
       alert("Check your inbox and verify your email. Then log in again.");
 
+      if (typeof username !== "string" || !username.trim()) {
+  alert("Please enter a valid username.");
+  setLoad(false);
+  return;
+}
+
       // Create user profile anyway
       await setDoc(doc(db, "user", res.user.uid), {
-        username,
+        username: username.trim(),
         email,
         id: res.user.uid,
         verified: false
@@ -81,14 +87,14 @@ const Login = () => {
                 required
               />
               <input
-                type="text"
-                value={email}
-                className="form-input"
-                id="Email"
-                placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+  type="email"
+  value={email}
+  className="form-input"
+  id="Email"
+  placeholder="Email"
+  onChange={(e) => setEmail(e.target.value)}
+  required
+/>
 
               <input
                 type="password"

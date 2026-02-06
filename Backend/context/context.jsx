@@ -52,14 +52,14 @@ const ContextProvider = (props) => {
     },[user])
 
     const createnewThread = async() =>{
-        const threadsRef = doc(collection(db, "userChats", user.uid,"threads"));
+        // const threadsRef = doc(collection(db, "userChats", user.uid,"threads"));
 
-        await setDoc(threadsRef,{
-            title:"New Chat",
-            text:"hello how can i help you",
-            updatedAt:serverTimestamp()
-        })
-        setActiveThreadId(threadsRef.id);
+        // await setDoc(threadsRef,{
+        //     title:"New Chat",
+        //     text:"hello how can i help you",
+        //     updatedAt:serverTimestamp()
+        // })
+        setActiveThreadId();
         setShowResult(false)
         setConversation([]);
 
@@ -87,10 +87,22 @@ const ContextProvider = (props) => {
         }
         setLoading(true);
         let threadId = activeThreadId;
-        if(!threadId){
-            threadId = await createnewThread();
-        }
-        
+
+if (!threadId) {
+  // Create thread ONLY when user actually sends a message
+  const threadsRef = doc(
+    collection(db, "userChats", user.uid, "threads")
+  );
+
+  await setDoc(threadsRef, {
+    title: "New Chat",
+    lastMessage: "",
+    updatedAt: serverTimestamp()
+  });
+
+  threadId = threadsRef.id;
+  setActiveThreadId(threadId);
+}
         const geminiHistory = conversation.map(m => ({
   role: m.role,
   parts: [{ text: m.text }]
