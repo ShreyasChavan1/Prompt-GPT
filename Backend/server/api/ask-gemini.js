@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const response = await run(prompt,history);
+        const response = await run(prompt,history || []);
         res.status(200).json({ response });
     } catch (err) {
         console.error(err);

@@ -102,24 +102,39 @@ const ContextProvider = (props) => {
             threadId = await createnewThread();
         }
         
-         const response = await fetch("https://prompt-gpt.vercel.app/api/ask-gemini", {
-            method: "POST",
-            headers: { "Content-type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({ prompt: message , history:conversation})
-        }).then(r => r.json())
+        const res = await fetch(
+  "https://prompt-gpt.vercel.app/api/ask-gemini",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      prompt: message,
+      history: conversation
+    })
+  }
+);
 
-        const reply = response.response
+if (!res.ok) {
+  const err = await res.text();
+  console.error("Gemini API failed:", err);
+  setLoading(false);
+  return;
+}
+
+const response = await res.json();
+const reply = response?.response || "Sorry, Gemini failed to answer.";
+
+       
 
         const usermsg = {
             role:"user",
-            text:message,
+            text:message || "",
             createdAt:serverTimestamp()
         }
 
         const modelmsg = {
             role:"model",
-            text:reply,
+            text:reply || "",
             createdAt:serverTimestamp()
         }
 
