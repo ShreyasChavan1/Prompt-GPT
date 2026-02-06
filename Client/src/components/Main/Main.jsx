@@ -30,8 +30,8 @@ const Main = (props) => {
         </div>
         <div className="main-container">
 
-        {  
-        conversation.length() > 0 ? (
+        {
+        conversation.length > 0 ? (
        <div className="result">
 
     {conversation.map((m, i) => (
