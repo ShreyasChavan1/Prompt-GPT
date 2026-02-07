@@ -52,18 +52,11 @@ const ContextProvider = (props) => {
     },[user])
 
     const createnewThread = async() =>{
-        // const threadsRef = doc(collection(db, "userChats", user.uid,"threads"));
-
-        // await setDoc(threadsRef,{
-        //     title:"New Chat",
-        //     text:"hello how can i help you",
-        //     updatedAt:serverTimestamp()
-        // })
-        setActiveThreadId();
+        
+        setActiveThreadId(null);
         setShowResult(false)
         setConversation([]);
 
-        return threadsRef.id
     }
 
     const openThread = async(threadId)=>{
@@ -74,7 +67,10 @@ const ContextProvider = (props) => {
         const q = query(msgref,orderBy("createdAt","asc"))
 
         const snap = await getDocs(q);
-        const msgs = snap.docs.map(d=>d.data());
+        const msgs = snap.docs
+  .map(d => d.data())
+  .filter(m => typeof m.text === "string");
+
 
         setConversation(msgs)
     }
@@ -103,10 +99,12 @@ if (!threadId) {
   threadId = threadsRef.id;
   setActiveThreadId(threadId);
 }
-        const geminiHistory = conversation.map(m => ({
-  role: m.role,
-  parts: [{ text: m.text }]
-}));
+        const geminiHistory = conversation
+  .filter(m => typeof m.text === "string")   // kill bad messages
+  .map(m => ({
+    role: m.role,
+    parts: [{ text: m.text || "" }]
+  }));
 
         const res = await fetch(
   "https://prompt-gpt.vercel.app/api/ask-gemini",
