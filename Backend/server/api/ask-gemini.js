@@ -28,7 +28,7 @@ export default async function handler(req, res) {
         const response = await run(prompt,history || []);
         res.status(200).json({ response });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Gemini failed" });
+        console.error("Gemini API error:", err.message || err);
+        res.status(500).json({ error: `Gemini failed: ${err.message || err}` });
     }
 }

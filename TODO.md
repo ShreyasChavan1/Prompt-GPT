@@ -1,0 +1,3 @@
+- [x] Correct the model name in Backend/server/config/gemini.js from "gemini-2.5-flash" to "gemini-1.5-flash"
+- [x] Add API key validation in Backend/server/config/gemini.js
+- [x] Improve error logging in Backend/server/api/ask-gemini.js to show actual error details
